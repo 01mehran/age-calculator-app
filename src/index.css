@@ -5,18 +5,43 @@
   --font-poppins: "Poppins", sans-serif;
 
   --color-white: oklch(1 0 0);
-  --color-gray-500: oklch(0 0 0);
+  --color-black-500: oklch(0 0 0);
 
-  --color-gray-100: oklch(0.9542 0 0);
-  --color-gray-200: oklch(0.8923 0 0);
-  --color-gray-500: oklch(0.544 0.0028 17.24);
+  --color-primary-100: oklch(0.9542 0 0);
+  --color-primary-200: oklch(0.8923 0 0);
+  --color-primary-500: oklch(0.544 0.0028 17.24);
 
   --color-purple: oklch(0.5863 0.247202 291.3519);
   --color-red: oklch(0.6843 0.2045 24.3);
+
+  --breakpoint-small: 31rem;
 }
 
 @layer base {
   body {
-    @apply font-poppins;
+    @apply font-poppins bg-primary-100;
+  }
+}
+
+@layer components {
+  .input {
+    @apply border-primary-200 placeholder:text-primary-500/90 small:text-xl small:border-primary-100 small:px-4 w-full rounded-md border p-2 py-3 text-lg font-bold tracking-wider text-black/80 outline-0;
+  }
+
+  .label {
+    @apply text-primary-500 text-[12px] font-semibold tracking-wider uppercase;
+  }
+
+  /* hide input outer-spin-button  */
+  input[type="number"]::-webkit-outer-spin-button,
+  input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    appearance: none;
+    margin: 0;
+  }
+
+  /* Firefox */
+  input[type="number"] {
+    -moz-appearance: textfield;
   }
 }

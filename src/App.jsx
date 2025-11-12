@@ -1,9 +1,7 @@
+import AgeCalculatorBox from "./pages/AgeCalculatorBox";
+
 function App() {
-  return (
-    <>
-      <h1>Age calculatore app</h1>
-    </>
-  );
+  return <AgeCalculatorBox />;
 }
 
 export default App;
