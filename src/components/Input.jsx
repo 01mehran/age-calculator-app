@@ -1,6 +1,6 @@
 import { useId } from "react";
 
-const Input = ({ label, placeholder }) => {
+const Input = ({ label, placeholder, value, onChange, name }) => {
   const ID = useId();
 
   return (
@@ -14,6 +14,9 @@ const Input = ({ label, placeholder }) => {
         placeholder={placeholder}
         id={ID}
         className="input outline-purple focus:outline"
+        value={value}
+        onChange={onChange}
+        name={name}
       />
     </article>
   );

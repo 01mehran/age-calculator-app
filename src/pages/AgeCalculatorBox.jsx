@@ -1,17 +1,69 @@
-// Hooks;
-import Input from "../components/Input";
-import arrowIcon from "../assets/images/icon-arrow.svg";
+// Libraries;
+import { useReducer } from "react";
+
+// Components;
 import Age from "../components/Age";
+import Input from "../components/Input";
+
+// Images;
+import arrowIcon from "../assets/images/icon-arrow.svg";
+
+const initialState = {
+  day: "",
+  month: "",
+  year: "",
+};
+
+function reducer(state, action) {
+  switch (action.type) {
+    case "input/change":
+      return { ...state, [action.payload.name]: action.payload.value };
+    default:
+      return state;
+  }
+}
 
 function AgeCalculatorBox() {
+  const [{ day, month, year }, dispatch] = useReducer(reducer, initialState);
+
+  // Update input fields;
+  function handleInputChange(e) {
+    dispatch({
+      type: "input/change",
+      payload: {
+        name: e.target.name,
+        value: e.target.value,
+      },
+    });
+  }
+
   return (
     <div className="flex h-dvh items-center justify-center">
       <section className="small:pl-8 mx-2 w-full max-w-152 rounded-2xl rounded-br-[5rem] bg-white px-4 py-8 shadow-md">
         {/* Input fields */}
         <form className="mb-12 flex items-center space-x-5">
-          <Input label="day" placeholder="DD" />
-          <Input label="month" placeholder="MM" />
-          <Input label="year" placeholder="YYYY" />
+          <Input
+            label="day"
+            placeholder="DD"
+            value={day}
+            onChange={handleInputChange}
+            name="day"
+          />
+          <Input
+            label="month"
+            placeholder="MM"
+            value={month}
+            onChange={handleInputChange}
+            name="month"
+          />
+          <Input
+            label="year"
+            placeholder="YYYY"
+            value={year}
+            onChange={handleInputChange}
+            name="year"
+          />
+          <input type="submit" className="hidden" />
         </form>
 
         {/* Icon arrow */}
