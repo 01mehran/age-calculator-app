@@ -7,6 +7,7 @@ import Input from "@/components/Input";
 
 // Images;
 import arrowIcon from "@images/icon-arrow.svg";
+import ValidateDate from "@/utils/ValidateDate";
 
 const initialState = {
   day: "",
@@ -17,7 +18,7 @@ const initialState = {
   yearError: "",
 };
 
-function reducer(state, action) {
+function ageReducer(state, action) {
   switch (action.type) {
     case "input/change":
       return { ...state, [action.payload.name]: action.payload.value };
@@ -30,7 +31,7 @@ function reducer(state, action) {
 
 function AgeCalculatorBox() {
   const [{ day, month, year, dayError, monthError, yearError }, dispatch] =
-    useReducer(reducer, initialState);
+    useReducer(ageReducer, initialState);
 
   // Update input fields;
   function handleInputChange(e) {
@@ -53,50 +54,7 @@ function AgeCalculatorBox() {
   function handleSubmit(e) {
     e.preventDefault();
 
-    const currentDate = new Date().getFullYear();
-    console.log(currentDate);
-    // Day;
-    if (!day) {
-      dispatch({
-        type: "input/empty",
-        payload: { name: "dayError", message: "This field is required" },
-      });
-    } else if (day < 1 || day > 31) {
-      dispatch({
-        type: "input/empty",
-        payload: { name: "dayError", message: "Must be a valid day" },
-      });
-    }
-    // Month;
-    if (!month) {
-      dispatch({
-        type: "input/empty",
-        payload: { name: "monthError", message: "This field is required" },
-      });
-    } else if (month < 1 || month > 12) {
-      dispatch({
-        type: "input/empty",
-        payload: { name: "monthError", message: "Must be a valid month" },
-      });
-    }
-
-    // Year;
-    if (!year) {
-      dispatch({
-        type: "input/empty",
-        payload: { name: "yearError", message: "This field is required" },
-      });
-    } else if (year < 1900) {
-      dispatch({
-        type: "input/empty",
-        payload: { name: "yearError", message: "Must be greater 1900" },
-      });
-    } else if (year > currentDate) {
-      dispatch({
-        type: "input/empty",
-        payload: { name: "yearError", message: "Must be in the past" },
-      });
-    }
+    ValidateDate({ day, month, year, dispatch });
   }
 
   return (
