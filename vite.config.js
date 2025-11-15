@@ -9,6 +9,7 @@ const __dirname = path.dirname(__filename);
 
 // https://vite.dev/config/
 export default defineConfig({
+  base: "/age-calculator-app/",
   plugins: [react(), tailwindcss()],
   resolve: {
     alias: {
