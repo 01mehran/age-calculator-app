@@ -16,6 +16,8 @@ const initialState = {
   dayError: "",
   monthError: "",
   yearError: "",
+  ageYear: null,
+  ageMonth: null,
 };
 
 function ageReducer(state, action) {
@@ -24,14 +26,25 @@ function ageReducer(state, action) {
       return { ...state, [action.payload.name]: action.payload.value };
     case "input/empty":
       return { ...state, [action.payload.name]: action.payload.message };
+    case "age/setYear":
+      return { ...state, ageYear: action.payload };
+    case "age/setMonth":
+      return { ...state, ageMonth: action.payload };
     default:
       return state;
   }
 }
 
 function AgeCalculatorBox() {
-  const [{ day, month, year, dayError, monthError, yearError }, dispatch] =
-    useReducer(ageReducer, initialState);
+  const [
+    { day, month, year, dayError, monthError, yearError, ageYear, ageMonth },
+    dispatch,
+  ] = useReducer(ageReducer, initialState);
+
+  //Get dates;
+  const date = new Date();
+  const currentYear = date.getFullYear();
+  const currentMonth = date.getMonth() + 1;
 
   // Update input fields;
   function handleInputChange(e) {
@@ -50,11 +63,23 @@ function AgeCalculatorBox() {
     });
   }
 
-  // Sybmit;
-  function handleSubmit(e) {
+  // Submit;
+  function handleAgeCalculate(e) {
     e.preventDefault();
 
-    ValidateDate({ day, month, year, dispatch });
+    const isValid = ValidateDate({ day, month, year, dispatch });
+    if (!isValid) return;
+
+    let calculateYear = year && currentYear - year;
+    let calculateMonth = month && currentMonth - month;
+
+    if (calculateMonth < 0) {
+      calculateMonth += 12;
+      calculateYear -= 1;
+    }
+
+    dispatch({ type: "age/setYear", payload: calculateYear });
+    dispatch({ type: "age/setMonth", payload: calculateMonth });
   }
 
   return (
@@ -63,7 +88,7 @@ function AgeCalculatorBox() {
         {/* Input fields */}
         <form
           className="small:space-x-5 mb-12 flex items-center space-x-2"
-          onSubmit={handleSubmit}
+          onSubmit={handleAgeCalculate}
         >
           <Input
             label="day"
@@ -98,14 +123,14 @@ function AgeCalculatorBox() {
             src={arrowIcon}
             alt="icon arrow"
             className="bg-purple small:translate-x-0 small:left-auto small:right-0 small:w-16 small:p-3 hover:bg-black-500 absolute left-1/2 aspect-square w-14 -translate-x-1/2 -translate-y-1/2 cursor-pointer rounded-full p-3 transition-all duration-300 active:translate-y-px"
-            onClick={handleSubmit}
+            onClick={handleAgeCalculate}
           />
         </div>
 
         {/* Age calculation result*/}
         <div className="flex flex-col space-y-3">
-          <Age unit="years" />
-          <Age unit="months" />
+          <Age unit="years" value={ageYear} />
+          <Age unit="months" value={ageMonth} />
           <Age unit="days" />
         </div>
       </section>
