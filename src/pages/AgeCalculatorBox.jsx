@@ -18,6 +18,7 @@ const initialState = {
   yearError: "",
   ageYear: null,
   ageMonth: null,
+  ageDay: null,
 };
 
 function ageReducer(state, action) {
@@ -30,6 +31,10 @@ function ageReducer(state, action) {
       return { ...state, ageYear: action.payload };
     case "age/setMonth":
       return { ...state, ageMonth: action.payload };
+    case "age/setDay":
+      return { ...state, ageDay: action.payload };
+    case "input/reset":
+      return { ...state, day: "", month: "", year: "" };
     default:
       return state;
   }
@@ -37,7 +42,17 @@ function ageReducer(state, action) {
 
 function AgeCalculatorBox() {
   const [
-    { day, month, year, dayError, monthError, yearError, ageYear, ageMonth },
+    {
+      day,
+      month,
+      year,
+      dayError,
+      monthError,
+      yearError,
+      ageYear,
+      ageMonth,
+      ageDay,
+    },
     dispatch,
   ] = useReducer(ageReducer, initialState);
 
@@ -45,6 +60,7 @@ function AgeCalculatorBox() {
   const date = new Date();
   const currentYear = date.getFullYear();
   const currentMonth = date.getMonth() + 1;
+  const currentDay = date.getDate();
 
   // Update input fields;
   function handleInputChange(e) {
@@ -70,16 +86,31 @@ function AgeCalculatorBox() {
     const isValid = ValidateDate({ day, month, year, dispatch });
     if (!isValid) return;
 
-    let calculateYear = year && currentYear - year;
-    let calculateMonth = month && currentMonth - month;
+    let calculateYear = currentYear - year;
+    let calculateMonth = currentMonth - month;
+    let calculateDay = currentDay - day;
 
     if (calculateMonth < 0) {
       calculateMonth += 12;
       calculateYear -= 1;
     }
 
+    if (calculateDay < 0) {
+      const daysInPreviousMonth = getDaysInMonth(currentYear, currentMonth);
+      calculateDay = calculateDay + daysInPreviousMonth;
+      calculateMonth - calculateMonth - 1;
+    }
+
     dispatch({ type: "age/setYear", payload: calculateYear });
     dispatch({ type: "age/setMonth", payload: calculateMonth });
+    dispatch({ type: "age/setDay", payload: calculateDay });
+
+    // Empty inputs;
+    dispatch({ type: "input/reset" });
+  }
+
+  function getDaysInMonth(year, month) {
+    return new Date(year, month, 0).getDate();
   }
 
   return (
@@ -131,7 +162,7 @@ function AgeCalculatorBox() {
         <div className="flex flex-col space-y-3">
           <Age unit="years" value={ageYear} />
           <Age unit="months" value={ageMonth} />
-          <Age unit="days" />
+          <Age unit="days" value={ageDay} />
         </div>
       </section>
     </div>
