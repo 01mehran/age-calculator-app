@@ -83,11 +83,21 @@ function AgeCalculatorBox() {
   function handleAgeCalculate(e) {
     e.preventDefault();
 
+    const getDaysInSelectedMonth = getDaysInMonth(year, month);
+
+    if (day > getDaysInSelectedMonth) {
+      dispatch({
+        type: "input/empty",
+        payload: { name: "dayError", message: "Must be a valid day" },
+      });
+      return;
+    }
+
     const isValid = ValidateDate({ day, month, year, dispatch });
     if (!isValid) return;
 
     let calculateYear = currentYear - year;
-    let calculateMonth = currentMonth - month;
+    let calculateMonth = currentMonth - month - 1;
     let calculateDay = currentDay - day;
 
     if (calculateMonth < 0) {
@@ -96,9 +106,9 @@ function AgeCalculatorBox() {
     }
 
     if (calculateDay < 0) {
-      const daysInPreviousMonth = getDaysInMonth(currentYear, currentMonth);
+      const daysInPreviousMonth = getDaysInMonth(currentYear, currentMonth - 1);
       calculateDay = calculateDay + daysInPreviousMonth;
-      calculateMonth - calculateMonth - 1;
+      calculateMonth = calculateMonth - 1;
     }
 
     dispatch({ type: "age/setYear", payload: calculateYear });
@@ -115,7 +125,7 @@ function AgeCalculatorBox() {
 
   return (
     <div className="flex h-dvh items-center justify-center">
-      <section className="small:pl-8 mx-2 w-full max-w-152 rounded-2xl rounded-br-[5rem] bg-white px-4 py-8 shadow-md">
+      <section className="small:pl-8 mx-3 w-full max-w-152 rounded-2xl rounded-br-[5rem] bg-white/80 px-4 py-8 shadow-sm">
         {/* Input fields */}
         <form
           className="small:space-x-5 mb-12 flex items-center space-x-2"

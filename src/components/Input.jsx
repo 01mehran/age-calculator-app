@@ -5,7 +5,10 @@ const Input = ({ label, placeholder, value, onChange, name, error }) => {
 
   return (
     <article className="relative flex w-full max-w-30 flex-col space-y-1 pb-5">
-      <label htmlFor={ID} className={`label ${error ? "text-red" : ""}`}>
+      <label
+        htmlFor={ID}
+        className={`label ${error && "text-red/90"} font-bold`}
+      >
         {label}
       </label>
 
@@ -13,12 +16,12 @@ const Input = ({ label, placeholder, value, onChange, name, error }) => {
         type="number"
         placeholder={placeholder}
         id={ID}
-        className={`input outline-purple focus:outline ${error ? "border-red focus:outline-0" : ""}`}
+        className={`input outline-purple focus:outline ${error ? "border-red/90 focus:outline-0" : ""}`}
         value={value}
         onChange={onChange}
         name={name}
       />
-      <span className="text-red font-meduim small:bottom-0 small:text-[11px] absolute bottom-1.5 text-[8px] text-nowrap">
+      <span className="text-red/90 font-meduim small:bottom-0 small:text-[11px] absolute bottom-1.5 text-[8px] text-nowrap">
         {error}
       </span>
     </article>

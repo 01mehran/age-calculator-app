@@ -1,6 +1,6 @@
 function Age({ value, unit }) {
   return (
-    <article className="small:text-7xl flex items-center gap-4 text-5xl font-bold max-[322px]:text-green-400">
+    <article className="small:text-7xl flex items-center gap-4 text-5xl font-extrabold italic">
       <span className="text-purple tracking-normal">
         {value || value === 0 ? value : "- - "}
       </span>
