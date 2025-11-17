@@ -1,6 +1,4 @@
-const ValidateDate = ({ day, month, year, dispatch }) => {
-  //   Get current year;
-  const currentYear = new Date().getFullYear();
+const ValidateDate = ({ day, month, year, dispatch, currentYear }) => {
   let hasError = false;
 
   if (!day) {

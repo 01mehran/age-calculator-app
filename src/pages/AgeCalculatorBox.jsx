@@ -70,7 +70,7 @@ function AgeCalculatorBox() {
       return;
     }
 
-    const isValid = ValidateDate({ day, month, year, dispatch });
+    const isValid = ValidateDate({ day, month, year, dispatch, currentYear });
     if (!isValid) return;
 
     let calculateYear = currentYear - year;
