@@ -50,10 +50,16 @@ function AgeCalculatorBox() {
     });
   }
 
-  // Submit;
+  // Get the number of days in the previous month-(29/30/31)
+  function getDaysInMonth(year, month) {
+    return new Date(year, month, 0).getDate();
+  }
+
+  // َ Handle age calucalte;
   function handleAgeCalculate(e) {
     e.preventDefault();
 
+    // Returns the last day of the previous month;
     const getDaysInSelectedMonth = getDaysInMonth(year, month);
 
     if (day > getDaysInSelectedMonth) {
@@ -68,18 +74,27 @@ function AgeCalculatorBox() {
     if (!isValid) return;
 
     let calculateYear = currentYear - year;
-    let calculateMonth = currentMonth - month - 1;
+    let calculateMonth = currentMonth - month;
     let calculateDay = currentDay - day;
+
+    // Borrow day if needed;
+    if (calculateDay < 0) {
+      let prevMonth = currentMonth - 1;
+      let prevYear = currentYear;
+
+      if (prevMonth === 0) {
+        prevMonth = 12;
+        prevYear -= 1;
+      }
+
+      const daysInPreviousMonth = getDaysInMonth(prevYear, prevMonth);
+      calculateDay += daysInPreviousMonth;
+      calculateMonth -= 1;
+    }
 
     if (calculateMonth < 0) {
       calculateMonth += 12;
       calculateYear -= 1;
-    }
-
-    if (calculateDay < 0) {
-      const daysInPreviousMonth = getDaysInMonth(currentYear, currentMonth - 1);
-      calculateDay = calculateDay + daysInPreviousMonth;
-      calculateMonth = calculateMonth - 1;
     }
 
     dispatch({ type: "age/setYear", payload: calculateYear });
@@ -88,10 +103,6 @@ function AgeCalculatorBox() {
 
     // Empty inputs;
     dispatch({ type: "input/reset" });
-  }
-
-  function getDaysInMonth(year, month) {
-    return new Date(year, month, 0).getDate();
   }
 
   return (
