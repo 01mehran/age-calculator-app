@@ -106,7 +106,7 @@ function AgeCalculatorBox() {
   }
 
   return (
-    <div className="flex h-dvh items-center justify-center">
+    <div className="from-purple flex h-dvh items-center justify-center bg-linear-to-b to-purple-900">
       <section className="small:pl-8 mx-3 w-full max-w-152 rounded-2xl rounded-br-[5rem] bg-white/80 px-4 py-8 shadow-sm">
         {/* Input fields */}
         <form
@@ -141,7 +141,7 @@ function AgeCalculatorBox() {
         </form>
 
         {/* Icon arrow */}
-        <div className="bg-primary-100 small:mr-6 relative mb-14 h-px">
+        <div className="small:mr-6 relative mb-14 h-px bg-[#ccc]">
           <img
             src={arrowIcon}
             alt="icon arrow"

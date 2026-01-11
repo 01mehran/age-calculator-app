@@ -25,7 +25,7 @@
 
 @layer components {
   .input {
-    @apply border-primary-200 placeholder:text-primary-500/90 small:text-xl small:border-primary-100 small:px-4 w-full rounded-md border p-2 py-3 text-lg font-bold tracking-wider text-black/80 outline-0;
+    @apply placeholder:text-primary-500/90 small:text-xl border-purple small:px-4 w-full rounded-md border p-2 py-3 text-lg font-bold tracking-wider text-black/80 outline-0;
   }
 
   .label {
@@ -43,5 +43,6 @@
   /* Firefox */
   input[type="number"] {
     -moz-appearance: textfield;
+    appearance: textfield;
   }
 }
