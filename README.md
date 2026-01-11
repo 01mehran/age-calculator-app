@@ -8,7 +8,7 @@ It includes input validation and displays errors for invalid dates.
 ## 🖼 Screenshot
 
 ![Age Calculator Screenshot](/public/demo.png)
-![Age Calculator Screenshot](/public/demo/error.png)
+![Age Calculator Screenshot](/public/error.png)
 
 ---
 
